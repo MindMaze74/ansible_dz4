@@ -1,0 +1,28 @@
+data_dir: "/var/lib/vector"
+
+sources:
+  app_logs:
+    type: "demo_logs"
+    format: "json"
+    interval: 1.0
+
+transforms:
+  wrap:
+    type: "remap"
+    inputs: ["app_logs"]
+    source: |
+      . = {"raw": encode_json(.)}
+
+sinks:
+  clickhouse:
+    type: "http"
+    inputs: ["wrap"]
+    uri: "http://{{ clickhouse_host }}:8123/?query=INSERT%20INTO%20logs.app_logs%20FORMAT%20JSONEachRow"
+    method: "post"
+    encoding:
+      codec: "json"
+    framing:
+      method: "newline_delimited"
+    request:
+      retry_attempts: 3
+      timeout_secs: 30

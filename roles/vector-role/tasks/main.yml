@@ -1,0 +1,30 @@
+---
+# tasks file for vector-role
+
+- name: Add Vector YUM repository
+  ansible.builtin.yum_repository:
+    name: vector
+    description: Vector repository
+    baseurl: "https://yum.vector.dev/stable/vector-0/$basearch/"
+    enabled: true
+    gpgcheck: false
+    repo_gpgcheck: false
+
+- name: Install Vector
+  ansible.builtin.yum:
+    name: "vector-{{ vector_version }}"
+    state: present
+  notify: Restart Vector
+
+- name: Deploy Vector config
+  ansible.builtin.template:
+    src: vector.toml.j2
+    dest: /etc/vector/vector.yaml
+    mode: "0644"
+  notify: Restart Vector
+
+- name: Ensure Vector is running
+  ansible.builtin.service:
+    name: vector
+    state: started
+    enabled: true

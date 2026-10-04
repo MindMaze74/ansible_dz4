@@ -1,0 +1,3 @@
+---
+# defaults file for lighthouse-role
+lighthouse_dir: "/usr/share/nginx/lighthouse"

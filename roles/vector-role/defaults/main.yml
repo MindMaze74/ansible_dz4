@@ -1,0 +1,4 @@
+---
+# defaults file for vector-role
+vector_version: "0.39.0"
+clickhouse_host: "{{ hostvars[groups['clickhouse'][0]]['ansible_host'] }}"

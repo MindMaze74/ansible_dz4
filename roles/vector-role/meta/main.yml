@@ -1,0 +1,12 @@
+---
+galaxy_info:
+  author: Ваше Имя
+  description: Install and configure Vector agent
+  company: Netology
+  license: MIT
+  min_ansible_version: "2.10"
+  platforms:
+    - name: EL
+      versions:
+        - "7"
+dependencies: []
